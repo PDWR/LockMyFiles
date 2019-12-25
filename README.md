@@ -20,6 +20,7 @@ Before encrypt the files, we need to generate the RSA public and private key. Ru
 
 After that, we can running the encrypt.exe file, and it will start encrypting the files, after that, the windows will display and your files is encrypted! And it will generate a decrypt_key.txt file in the folder! This is the most import key! Don't delet it! Or you can NOT decrypt your files! No one can!
 	Tips：the speed of encrypting files is depended on your CPU Cores Number! 
+	
 ![image](https://github.com/PDWR/LockMyFiles/blob/master/images/decrypt_keys.png)
 ![image](https://github.com/PDWR/LockMyFiles/blob/master/images/encrypt_files.png)
 ![image](https://github.com/PDWR/LockMyFiles/blob/master/images/cannot_open.png)
