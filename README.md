@@ -3,7 +3,9 @@ Using AES and RSA to encrypt all files except the system files, so the computer 
 
 ## How to use this project
 
-First, we need to use pyinstaller to packet it as exe files, we need to packet 3 files they are generate_rsa_keys.py, encrypt.py, decrypt.py!
+Before we starting, we need to install some packets , use the following command!
+	pip install -r requirements.txt
+First of all, we need to use pyinstaller to packet it as exe files, we need to packet 3 files they are generate_rsa_keys.py, encrypt.py, decrypt.py!
 
 	pyinstaller -F generate_rsa_keys.py
 	pyinstaller -F encrypt.py
