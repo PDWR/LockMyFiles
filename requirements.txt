@@ -1,0 +1,9 @@
+cryptography==2.7
+multiprocessing
+threading
+ctypes
+json
+time
+sys
+string
+base64
