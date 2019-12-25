@@ -1,3 +1,12 @@
+'''
+@Author: 3vil_k4li & Odelesse-Chen
+@Date: 2019-12-25 14:39:38
+@LastEditTime : 2019-12-25 15:11:45
+@LastEditors  : Please set LastEditors
+@Description: Generate the RSA private and public key
+@FilePath: \LockMyFiles\generate_rsa_keys.py
+'''
+
 from __future__ import print_function
 import sys
 import os
@@ -18,6 +27,7 @@ def is_admin():
     except:
         return False
 
+# check if running as administrator, this can be ignore!
 def main():
     if is_admin():
         generate_keys()

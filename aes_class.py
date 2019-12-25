@@ -1,3 +1,12 @@
+'''
+@Author: 3vil_k4li & Odelesse-Chen
+@Date: 2019-12-25 14:39:38
+@LastEditTime : 2019-12-25 15:25:01
+@LastEditors  : Please set LastEditors
+@Description: some AES algorithm function 
+@FilePath: \\LockMyFiles\\aes_class.py
+'''
+
 import multiprocessing
 import os
 import time
