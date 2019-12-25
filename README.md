@@ -1,7 +1,7 @@
 # LockMyFiles
 Using AES and RSA to encrypt all files except the system files, so the computer can run normally, but the private files will be locked! Of course, you can change and select which files can be except, just only add them to WHITE_DIRS or WHITE_FILES, you can read the code, and change it!
 
-How to use this project
+**How to use this project
 
 First, we need to use pyinstaller to packet it as exe files, we need to packet 3 files there generate_rsa_keys.py, encrypt.py, decrypt.py!
 
